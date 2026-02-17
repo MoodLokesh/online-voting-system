@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voter Dashboard</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="dashboard-page">
+
+
+<div class="dashboard">
+
+    <!-- Header -->
+    <div class="header-card">
+        <h1>Welcome, {{ voter.full_name }}</h1>
+        <p>Online Voting System</p>
+    </div>
+
+    <!-- Cards Container -->
+    <div class="card-container">
+
+        <!-- Voter Details Card -->
+        <div class="card">
+            <h3>👤 Voter Details</h3>
+            <p><strong>Username:</strong> {{ voter.username }}</p>
+            <p><strong>Gender:</strong> {{ voter.gender }}</p>
+            <p><strong>Constituency:</strong> {{ voter.constituency }}</p>
+        </div>
+
+        <!-- Voting Status Card -->
+        <div class="card">
+            <h3>🗳️ Voting Status</h3>
+            {% if voter.has_voted %}
+                <p class="danger">❌ You have already voted</p>
+            {% else %}
+                <p class="success">✅ You are eligible to vote</p>
+                <a href="/vote/">
+                    <button class="primary-btn">Go to Vote</button>
+                </a>
+            {% endif %}
+        </div>
+
+        <!-- Election Info Card -->
+        <div class="card">
+            <h3>📊 Election Info</h3>
+            <p><strong>Total Candidates:</strong> {{ total_candidates }}</p>
+        </div>
+
+    </div>
+
+    <!-- Logout -->
+    <div class="logout-box">
+        <a href="/logout/">
+            <button class="logout-btn">Logout</button>
+        </a>
+    </div>
+
+</div>
+
+<script src="{% static 'script.js' %}"></script>
+</body>
+</html>

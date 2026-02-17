@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cast Your Vote</title>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="{% static 'script.js' %}" defer></script>
+</head>
+
+<body>
+
+<div class="vote-page">
+
+    <h1 class="vote-title">🗳️ Cast Your Vote</h1>
+
+    <!-- VOTER INFO -->
+    <div class="voter-glass-card">
+        <p><strong>Voter:</strong> {{ request.session.user }}</p>
+        <p class="verified">✔ Verified & Eligible</p>
+    </div>
+
+    <!-- VOTING FORM -->
+    <form id="voteForm">
+
+        <div class="candidate-grid">
+            {% for candidate in candidates %}
+            <label class="candidate-card">
+                
+                <!-- Hidden radio -->
+                <input
+                    type="radio"
+                    name="candidate"
+                    value="{{ candidate.id }}"
+                    hidden
+                >
+
+                <div class="candidate-content">
+                    <h2>{{ candidate.name }}</h2>
+                    <p class="constituency">🏛️ {{ candidate.constituency }}</p>
+                </div>
+
+                <div class="select-indicator">✔</div>
+
+            </label>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="vote-btn">
+            Submit Vote
+        </button>
+
+    </form>
+</div>
+
+</body>
+</html>

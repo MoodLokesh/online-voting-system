@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Election Results</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)),
+                url("/static/images/voting-bg.jpg");
+
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .results-box {
+            width: 100%;
+            max-width: 750px;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(14px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            color: #ffffff;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 30px;
+            color: #f8fafc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 14px;
+            color: #e0e7ff;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 14px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+
+        tr {
+            background: rgba(255,255,255,0.12);
+            transition: 0.3s ease;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.22);
+        }
+
+        /* ===== WINNER ROW ===== */
+        .winner {
+            background: linear-gradient(
+                135deg,
+                rgba(245,158,11,0.9),
+                rgba(34,197,94,0.9)
+            ) !important;
+            color: #ffffff;
+            font-weight: bold;
+            animation: glow 1.8s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px rgba(255,215,0,0.6); }
+            to   { box-shadow: 0 0 25px rgba(255,215,0,0.9); }
+        }
+
+        .crown {
+            font-size: 20px;
+            margin-right: 6px;
+        }
+
+        .winner-badge {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 4px 10px;
+            font-size: 12px;
+            border-radius: 20px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        .empty {
+            padding: 18px;
+            color: #e5e7eb;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 22px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.25);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.35);
+            transition: 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.4);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="results-box">
+    <h2>📊 Election Results</h2>
+
+    <table>
+        <tr>
+            <th>Candidate</th>
+            <th>Total Votes</th>
+        </tr>
+
+        {% for c in results %}
+        <tr class="{% if forloop.first %}winner{% endif %}">
+            <td>
+                {% if forloop.first %}
+                    <span class="crown">👑</span>
+                    {{ c.name }}
+                    <span class="winner-badge">Winner</span>
+                {% else %}
+                    {{ c.name }}
+                {% endif %}
+            </td>
+            <td>🗳 {{ c.total_votes }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2" class="empty">
+                No votes have been cast yet
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div style="text-align:center;">
+        <a href="/dashboard/" class="back-btn">⬅ Back to Dashboard</a>
+    </div>
+</div>
+
+</body>
+</html>
